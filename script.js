@@ -1,15 +1,4 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const csvData = `PRODUCTO,MARCA,MODELO,IMGSRC
-ANA HICKMANN AH MARI-7 D21,ANA HICKMANN,AH MARI-7 D21,https://loja.oticaademar.com.br/image/cache/catalog/Produtos/59475%20-%20Armacao%20Ana%20Hickmann%20MARI%207%20D21%2054-16%2001-800x800.jpg
-ANA HICKMANN AH MARI-7 N01,ANA HICKMANN,AH MARI-7 N01,https://loja.oticaademar.com.br/image/cache/catalog/Produtos/59476%20-%20Armacao%20Ana%20Hickmann%20MARI%207%20N01%2054-16%2001-800x800.jpg
-ANA HICKMANN AH NINA-3 N01,ANA HICKMANN,AH NINA-3 N01,https://loja.oticaademar.com.br/image/cache/catalog/Produtos/59481%20-%20Armacao%20Ana%20Hickmann%20NINA%203%20N01%2054-17%2001-800x800.jpg
-ANA HICKMANN AH NINA-4 N01,ANA HICKMANN,AH NINA-4 N01,https://loja.oticaademar.com.br/image/cache/catalog/Produtos/60706%20-%20Armacao%20Ana%20Hickmann%20NINA%204%20C02%2053-16%2001-350x350.jpg
-ANA HICKMANN AH RAFA-1 01A,ANA HICKMANN,AH RAFA-1 01A,https://anahickmanneyewear.com.br/wp-content/uploads/2025/04/RAFA-1-01A.png
-ATITUDE AT1701-04A,ATITUDE,AT1701-04A,https://images.tcdn.com.br/img/img_prod/846719/armacao_para_oculos_de_grau_atitude_at1700_04a_4117_1_70c6e14a7ed4266744a70bcd7fb5b133.jpg
-BULGET BG1691M-02A,BULGET,BG1691M-02A,https://www.safira.com.br/cdn/imagens/produtos/det/oculos-de-grau-bulget-bg1691m-02a-14cd071976a90210885e9c53cc9a418a.jpg
-HICKMANN HI ACACIA 5 K02,HICKMANN,HI ACACIA 5 K02,https://loja.oticaademar.com.br/image/cache/catalog/Produtos/58815%20-%20Armacao%20Hickmann%20ACACIA%205%20K02%2053-17%2001-800x800.jpg
-`;
-
     const state = {
         products: [],
         filteredProducts: [],
@@ -21,15 +10,24 @@ HICKMANN HI ACACIA 5 K02,HICKMANN,HI ACACIA 5 K02,https://loja.oticaademar.com.b
     const isIndexPage = document.getElementById('product-container');
     const isSelectedPage = document.getElementById('selected-product-container');
 
-    function initialize() {
-        state.products = parseCSV(csvData);
-        state.filteredProducts = state.products;
-        if (isIndexPage) {
-            populateBrandFilter();
-            renderIndexPage();
-        } else if (isSelectedPage) {
-            populateCountryCodes();
-            renderSelectedPage();
+    async function initialize() {
+        try {
+            const response = await fetch('idcatalog.csv');
+            const csvData = await response.text();
+            state.products = parseCSV(csvData);
+            state.filteredProducts = state.products;
+            if (isIndexPage) {
+                populateBrandFilter();
+                renderIndexPage();
+            } else if (isSelectedPage) {
+                populateCountryCodes();
+                renderSelectedPage();
+            }
+        } catch (error) {
+            console.error("Error during initialization:", error);
+            if(isIndexPage) {
+                document.getElementById('product-container').innerHTML = '<p>Error al cargar los productos. Por favor, revise la consola para más detalles.</p>';
+            }
         }
     }
 
@@ -37,14 +35,18 @@ HICKMANN HI ACACIA 5 K02,HICKMANN,HI ACACIA 5 K02,https://loja.oticaademar.com.b
         const rows = data.split('\n').slice(1);
         return rows.map((row, i) => {
             const columns = row.split(',');
+            if (columns.length < 4) {
+                console.warn(`Skipping malformed CSV row ${i + 2}: ${row}`);
+                return null;
+            }
             return {
                 id: i,
                 producto: columns[0],
                 marca: columns[1],
                 modelo: columns[2],
-                imgsrc: columns[3],
+                imgsrc: columns.slice(3).join(','),
             };
-        }).filter(p => p.producto);
+        }).filter(p => p && p.producto);
     }
 
     function saveSelection() {
@@ -124,8 +126,9 @@ HICKMANN HI ACACIA 5 K02,HICKMANN,HI ACACIA 5 K02,https://loja.oticaademar.com.b
     
     function populateBrandFilter() {
         const brandFilter = document.getElementById('brand-filter');
+        brandFilter.innerHTML = '<option value="">TODAS LAS MARCAS</option>';
         const brands = [...new Set(state.products.map(p => p.marca))];
-        brands.forEach(brand => {
+        brands.sort().forEach(brand => {
             const option = document.createElement('option');
             option.value = brand;
             option.textContent = brand;
