@@ -8,13 +8,15 @@
 </head>
 <body>
     <header>
-        <img src="idlogo.png" alt="ID IMPORT EXPORT Logo">
+        <a href="index.html"><img src="idlogo.png" alt="ID IMPORT EXPORT Logo"></a>
         <h1>ID IMPORT EXPORT - CATALOGO</h1>
         <button id="clear-selection">Limpiar Selección</button>
     </header>
     <main>
         <div class="filter-container">
-            <input type="text" id="brand-filter" placeholder="Filtrar por marca...">
+            <select id="brand-filter">
+                <option value="">Todas las marcas</option>
+            </select>
             <button id="open-selected">Abrir Página con productos seleccionados</button>
         </div>
         <div id="product-container" class="product-grid">

@@ -8,11 +8,20 @@
 </head>
 <body>
     <header>
-        <img src="idlogo.png" alt="ID IMPORT EXPORT Logo">
+        <a href="index.html"><img src="idlogo.png" alt="ID IMPORT EXPORT Logo"></a>
         <h1>ID IMPORT EXPORT - PRODUCTOS SELECCIONADOS</h1>
         <button id="clear-selection">Limpiar Selección</button>
     </header>
     <main>
+        <div class="user-info-container">
+            <input type="text" id="name" placeholder="Nombre y Apellido" required>
+            <input type="email" id="email" placeholder="Correo Electrónico">
+            <div class="whatsapp-container">
+                <select id="country-code"></select>
+                <input type="tel" id="whatsapp" placeholder="WhatsApp" required>
+            </div>
+            <input type="text" id="business-name" placeholder="Nombre del Negocio">
+        </div>
         <div class="button-container">
             <button id="download-pdf">Descargar PDF</button>
             <button id="send-whatsapp">Enviar por WhatsApp</button>
