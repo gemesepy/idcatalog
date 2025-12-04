@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ID IMPORT EXPORT - PRODUCTOS SELECCIONADOS</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <img src="idlogo.png" alt="ID IMPORT EXPORT Logo">
+        <h1>ID IMPORT EXPORT - PRODUCTOS SELECCIONADOS</h1>
+        <button id="clear-selection">Limpiar Selección</button>
+    </header>
+    <main>
+        <div class="button-container">
+            <button id="download-pdf">Descargar PDF</button>
+            <button id="send-whatsapp">Enviar por WhatsApp</button>
+        </div>
+        <div id="selected-product-container" class="product-grid">
+            <!-- Selected products will be inserted here by JavaScript -->
+        </div>
+    </main>
+    <div id="image-modal" class="modal">
+        <span class="close-modal">&times;</span>
+        <img class="modal-content" id="modal-image">
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
