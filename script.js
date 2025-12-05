@@ -89,7 +89,11 @@ document.addEventListener('DOMContentLoaded', () => {
             <div class="product-card" data-id="${product.id}">
                 <img src="${product.imgsrc}" alt="${product.producto}" class="product-image">
                 <h3>${product.producto}</h3>
-                <p><strong>Cantidad:</strong> ${selection.quantity}</p>
+                <div class="quantity">
+                    <label>CANTIDAD:</label>
+                    <input type="number" class="quantity-input" value="${selection.quantity}" min="1">
+                </div>
+                <button class="delete-btn">Eliminar</button>
             </div>
         `;
     }
@@ -210,6 +214,33 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function addSelectedPageEventListeners() {
+        document.querySelectorAll('.delete-btn').forEach(button => {
+            button.addEventListener('click', (e) => {
+                const card = e.target.closest('.product-card');
+                const productId = card.dataset.id;
+                delete state.selectedProducts[productId];
+                saveSelection();
+                renderSelectedPage(); // Re-render to show the item is gone
+            });
+        });
+
+        document.querySelectorAll('#selected-product-container .quantity-input').forEach(input => {
+            input.addEventListener('change', (e) => {
+                const card = e.target.closest('.product-card');
+                const productId = card.dataset.id;
+                const newQuantity = parseInt(e.target.value);
+                if (newQuantity > 0) {
+                    state.selectedProducts[productId].quantity = newQuantity;
+                    saveSelection();
+                } else {
+                    // If quantity is 0 or less, treat it as a deletion
+                    delete state.selectedProducts[productId];
+                    saveSelection();
+                    renderSelectedPage();
+                }
+            });
+        });
+
         addImageZoomListeners();
     }
 

@@ -10,21 +10,27 @@
     <header>
         <a href="index.html"><img src="idlogo.png" alt="ID IMPORT EXPORT Logo"></a>
         <h1>ID IMPORT EXPORT - PRODUCTOS SELECCIONADOS</h1>
-        <button id="clear-selection">Limpiar Selección</button>
     </header>
     <main>
-        <div class="user-info-container">
-            <input type="text" id="name" placeholder="Nombre y Apellido" required>
-            <input type="email" id="email" placeholder="Correo Electrónico">
-            <div class="whatsapp-container">
-                <select id="country-code"></select>
-                <input type="tel" id="whatsapp" placeholder="WhatsApp" required>
-            </div>
-            <input type="text" id="business-name" placeholder="Nombre del Negocio">
-        </div>
-        <div class="button-container">
+        <div class="controls-container">
+            <button id="clear-selection">LIMPIAR SELECCION</button>
             <button id="download-pdf">Descargar PDF</button>
             <button id="send-whatsapp">Enviar por WhatsApp</button>
+        </div>
+
+        <div class="form-container">
+            <hr class="separator">
+            <h2>COMPLETA ESTOS DATOS ANTES DE GENERAR EL PEDIDO</h2>
+            <div class="user-info-container">
+                <input type="text" id="name" placeholder="Nombre y Apellido" required>
+                <input type="email" id="email" placeholder="Correo Electrónico">
+                <div class="whatsapp-container">
+                    <select id="country-code"></select>
+                    <input type="tel" id="whatsapp" placeholder="WhatsApp" required>
+                </div>
+                <input type="text" id="business-name" placeholder="Nombre del Negocio">
+            </div>
+            <hr class="separator">
         </div>
         <div id="selected-product-container" class="product-grid">
             <!-- Selected products will be inserted here by JavaScript -->
