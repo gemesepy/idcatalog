@@ -8,26 +8,27 @@
 </head>
 <body>
     <header>
-        <a href="index.html"><img src="idlogo.png" alt="ID IMPORT EXPORT Logo"></a>
+        <img src="idlogo.png" alt="ID IMPORT EXPORT Logo">
         <h1>ID IMPORT EXPORT - CATALOGO</h1>
-        <button id="clear-selection">Limpiar Selección</button>
     </header>
     <main>
-        <div class="filter-container">
+        <div class="controls-container">
+            <input type="text" id="name-filter" placeholder="NOMBRE">
             <select id="brand-filter">
-                <option value="">Todas las marcas</option>
+                <option value="">TODAS LAS MARCAS</option>
             </select>
-            <button id="open-selected">Abrir Página con productos seleccionados</button>
+            <button id="open-selected">VER PRODUCTOS SELECCIONADOS</button>
+            <button id="clear-selection">LIMPIAR SELECCION</button>
         </div>
         <div id="product-container" class="product-grid">
             <!-- Products will be inserted here by JavaScript -->
         </div>
         <div class="pagination">
-            <button id="first-page">Inicio</button>
-            <button id="prev-page">Anterior</button>
+            <button id="first-page">INICIO</button>
+            <button id="prev-page">ANTERIOR</button>
             <span id="page-info"></span>
-            <button id="next-page">Siguiente</button>
-            <button id="last-page">Final</button>
+            <button id="next-page">SIGUIENTE</button>
+            <button id="last-page">FINAL</button>
             <select id="items-per-page">
                 <option value="30">30 por página</option>
                 <option value="all">Todos</option>

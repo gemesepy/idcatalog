@@ -1,37 +1,65 @@
 body {
-    font-family: sans-serif;
+    font-family: Arial, sans-serif;
     margin: 0;
     padding: 20px;
-    background-color: #03010b;
+    background-color: #0d0f1a;
     color: #fff;
+    text-align: center;
 }
 
 header {
     display: flex;
-    justify-content: space-between;
+    flex-direction: column;
     align-items: center;
-    margin-bottom: 20px;
-    padding-bottom: 10px;
-    border-bottom: 2px solid #ccc;
+    margin-bottom: 30px;
 }
 
 header img {
-    max-height: 50px;
+    max-height: 70px;
+    margin-bottom: 15px;
 }
 
 header h1 {
-    font-size: 1.5em;
+    font-size: 2em;
     margin: 0;
+    font-weight: bold;
 }
 
-button {
+.controls-container {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 30px;
+    flex-wrap: wrap;
+}
+
+.controls-container input,
+.controls-container select,
+.controls-container button {
+    padding: 12px 20px;
+    font-size: 1em;
+    border-radius: 5px;
+    border: 1px solid #555;
+    background-color: #fff;
+    color: #000;
+}
+
+.controls-container button {
+    cursor: pointer;
+    font-weight: bold;
     text-transform: uppercase;
 }
 
-.filter-container,
-.button-container,
-.user-info-container {
-    margin-bottom: 20px;
+#open-selected {
+    background-color: #007bff;
+    color: #fff;
+    border-color: #007bff;
+}
+
+#clear-selection {
+    background-color: #1abc9c;
+    color: #fff;
+    border-color: #1abc9c;
 }
 
 .product-grid {
@@ -42,7 +70,6 @@ button {
 
 .product-card {
     background-color: #d1d1d1;
-    border: 1px solid #ddd;
     border-radius: 5px;
     padding: 15px;
     text-align: center;
@@ -53,35 +80,45 @@ button {
     max-width: 100%;
     height: auto;
     cursor: pointer;
+    border-radius: 5px;
 }
 
 .product-card h3 {
     margin: 10px 0;
+    font-size: 1em;
 }
 
+.product-card .selection,
 .product-card .quantity {
+    margin-top: 10px;
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-top: 10px;
+    gap: 8px;
 }
 
 .product-card .quantity input {
     width: 50px;
     text-align: center;
-    margin: 0 5px;
 }
 
 .pagination {
-    margin-top: 20px;
-    text-align: center;
+    margin-top: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+.pagination button, .pagination select {
+    text-transform: uppercase;
 }
 
 .modal {
     display: none;
     position: fixed;
-    z-index: 1;
-    padding-top: 100px;
+    z-index: 1000;
+    padding-top: 60px;
     left: 0;
     top: 0;
     width: 100%;
@@ -104,18 +141,20 @@ button {
     color: #f1f1f1;
     font-size: 40px;
     font-weight: bold;
-    transition: 0.3s;
+    cursor: pointer;
 }
 
-.close-modal:hover,
-.close-modal:focus {
-    color: #bbb;
-    text-decoration: none;
-    cursor: pointer;
+@media (max-width: 992px) {
+    .product-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
 }
 
 @media (max-width: 768px) {
     .product-grid {
         grid-template-columns: repeat(2, 1fr);
+    }
+    .controls-container {
+        flex-direction: column;
     }
 }

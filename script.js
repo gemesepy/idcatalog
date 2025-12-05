@@ -162,11 +162,19 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function filterProducts() {
         const selectedBrand = document.getElementById('brand-filter').value;
+        const nameQuery = document.getElementById('name-filter').value.toLowerCase();
+        
+        let products = state.products;
+
         if (selectedBrand) {
-            state.filteredProducts = state.products.filter(p => p.marca === selectedBrand);
-        } else {
-            state.filteredProducts = state.products;
+            products = products.filter(p => p.marca === selectedBrand);
         }
+
+        if (nameQuery) {
+            products = products.filter(p => p.producto.toLowerCase().includes(nameQuery));
+        }
+
+        state.filteredProducts = products;
         state.currentPage = 1;
         renderIndexPage();
     }
@@ -227,6 +235,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (isIndexPage) {
         document.getElementById('brand-filter').addEventListener('change', filterProducts);
+        document.getElementById('name-filter').addEventListener('input', filterProducts);
         document.getElementById('open-selected').addEventListener('click', () => window.location.href = 'seleccionados.html');
         document.getElementById('first-page').addEventListener('click', () => { state.currentPage = 1; renderIndexPage(); });
         document.getElementById('prev-page').addEventListener('click', () => { if (state.currentPage > 1) state.currentPage--; renderIndexPage(); });
