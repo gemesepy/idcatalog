@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>ID IMPORT EXPORT - CATALOGO</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#0d0f1a">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-title" content="ID Catalog">
+    <link rel="apple-touch-icon" href="idlogo.png">
+</head>
+<body>
+    <header>
+        <img src="idlogo.png" alt="ID IMPORT EXPORT Logo">
+        <h1>ID IMPORT EXPORT - CATALOGO</h1>
+    </header>
+    <main>
+        <div class="controls-container">
+            <input type="text" id="name-filter" placeholder="NOMBRE">
+            <select id="brand-filter">
+                <option value="">TODAS LAS MARCAS</option>
+            </select>
+            <button id="open-selected">VER PRODUCTOS SELECCIONADOS</button>
+            <button id="clear-selection">LIMPIAR SELECCION</button>
+        </div>
+        <div id="product-container" class="product-grid">
+            <!-- Products will be inserted here by JavaScript -->
+        </div>
+        <div class="pagination">
+            <button id="first-page">INICIO</button>
+            <button id="prev-page">ANTERIOR</button>
+            <span id="page-info"></span>
+            <button id="next-page">SIGUIENTE</button>
+            <button id="last-page">FINAL</button>
+            <select id="items-per-page">
+                <option value="30">30 por página</option>
+                <option value="all">Todos</option>
+            </select>
+        </div>
+    </main>
+    <div id="image-modal" class="modal">
+        <span class="close-modal">&times;</span>
+        <img class="modal-content" id="modal-image">
+    </div>
+    <script src="script.js"></script>
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/sw.js')
+                    .then(registration => {
+                        console.log('ServiceWorker registration successful with scope: ', registration.scope);
+                    })
+                    .catch(error => {
+                        console.log('ServiceWorker registration failed: ', error);
+                    });
+            });
+        }
+    </script>
+</body>
+</html>
