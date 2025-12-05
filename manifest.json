@@ -1,0 +1,20 @@
+{
+  "short_name": "ID Catalog",
+  "name": "ID IMPORT EXPORT - CATALOGO",
+  "icons": [
+    {
+      "src": "idlogo.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "idlogo.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ],
+  "start_url": "index.html",
+  "background_color": "#0d0f1a",
+  "display": "standalone",
+  "theme_color": "#0d0f1a"
+}
