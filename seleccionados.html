@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>ID IMPORT EXPORT - PRODUCTOS SELECCIONADOS</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#0d0f1a">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-title" content="ID Catalog">
+    <link rel="apple-touch-icon" href="idlogo.png">
+</head>
+<body>
+    <header>
+        <a href="index.html"><img src="idlogo.png" alt="ID IMPORT EXPORT Logo"></a>
+        <h1>ID IMPORT EXPORT - PRODUCTOS SELECCIONADOS</h1>
+    </header>
+    <main>
+        <div class="controls-container">
+            <button id="clear-selection">LIMPIAR SELECCION</button>
+            <button id="download-pdf">Descargar PDF</button>
+            <button id="send-whatsapp">Enviar por WhatsApp</button>
+        </div>
+
+        <div class="form-container">
+            <hr class="separator">
+            <h2>COMPLETA ESTOS DATOS ANTES DE GENERAR EL PEDIDO</h2>
+            <div class="user-info-container">
+                <input type="text" id="name" placeholder="Nombre y Apellido" required>
+                <input type="email" id="email" placeholder="Correo Electrónico">
+                <div class="whatsapp-container">
+                    <select id="country-code"></select>
+                    <input type="tel" id="whatsapp" placeholder="WhatsApp" required>
+                </div>
+                <input type="text" id="business-name" placeholder="Nombre del Negocio">
+            </div>
+            <hr class="separator">
+        </div>
+        <div id="selected-product-container" class="product-grid">
+            <!-- Selected products will be inserted here by JavaScript -->
+        </div>
+    </main>
+    <div id="image-modal" class="modal">
+        <span class="close-modal">&times;</span>
+        <img class="modal-content" id="modal-image">
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+    <script src="script.js"></script>
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/sw.js')
+                    .then(registration => {
+                        console.log('ServiceWorker registration successful with scope: ', registration.scope);
+                    })
+                    .catch(error => {
+                        console.log('ServiceWorker registration failed: ', error);
+                    });
+            });
+        }
+    </script>
+</body>
+</html>

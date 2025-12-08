@@ -1,0 +1,233 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 20px;
+    background-color: #0d0f1a;
+    color: #fff;
+    text-align: center;
+}
+
+header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+header img {
+    max-height: 70px;
+    margin-bottom: 15px;
+}
+
+header h1 {
+    font-size: 2em;
+    margin: 0;
+    font-weight: bold;
+}
+
+.controls-container {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 30px;
+    flex-wrap: wrap;
+}
+
+.controls-container input,
+.controls-container select,
+.controls-container button {
+    padding: 12px 20px;
+    font-size: 1em;
+    border-radius: 5px;
+    border: 1px solid #555;
+    background-color: #fff;
+    color: #000;
+}
+
+.controls-container button {
+    cursor: pointer;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+#open-selected {
+    background-color: #007bff;
+    color: #fff;
+    border-color: #007bff;
+}
+
+#clear-selection {
+    background-color: #1abc9c;
+    color: #fff;
+    border-color: #1abc9c;
+}
+
+.product-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 20px;
+}
+
+.product-card {
+    background-color: #d1d1d1;
+    border-radius: 5px;
+    padding: 15px;
+    text-align: center;
+    color: #000;
+}
+
+.product-card img {
+    max-width: 100%;
+    height: auto;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.product-card h3 {
+    margin: 10px 0;
+    font-size: 1em;
+}
+
+.product-card .selection,
+.product-card .quantity {
+    margin-top: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.product-card .quantity input {
+    width: 50px;
+    text-align: center;
+}
+
+.pagination {
+    margin-top: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+.pagination button, .pagination select {
+    text-transform: uppercase;
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    padding-top: 60px;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.9);
+}
+
+.modal-content {
+    margin: auto;
+    display: block;
+    width: 80%;
+    max-width: 700px;
+}
+
+.close-modal {
+    position: absolute;
+    top: 15px;
+    right: 35px;
+    color: #f1f1f1;
+    font-size: 40px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+@media (max-width: 992px) {
+    .product-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .product-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    .controls-container {
+        flex-direction: column;
+    }
+}
+
+/* Styles for seleccionados.html */
+.form-container {
+    margin: 30px auto;
+    max-width: 600px;
+    text-align: center;
+}
+
+.form-container h2 {
+    font-size: 1.5em;
+    margin-bottom: 20px;
+}
+
+.user-info-container {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin: 20px 0;
+}
+
+.user-info-container input,
+.user-info-container select {
+    padding: 12px;
+    font-size: 1em;
+    border-radius: 5px;
+    border: 1px solid #555;
+    background-color: #fff;
+    color: #000;
+}
+
+.whatsapp-container {
+    display: flex;
+    gap: 5px;
+}
+
+.whatsapp-container select {
+    flex-basis: 30%;
+}
+
+.whatsapp-container input {
+    flex-grow: 1;
+}
+
+.separator {
+    border: 0;
+    height: 1px;
+    background-color: #ccc;
+    margin: 20px 0;
+}
+
+#download-pdf {
+    background-color: #007bff;
+    color: #fff;
+    border-color: #007bff;
+}
+
+#send-whatsapp {
+    background-color: #25D366;
+    color: #fff;
+    border-color: #25D366;
+}
+
+.product-card .delete-btn {
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+    text-transform: uppercase;
+    font-weight: bold;
+}
