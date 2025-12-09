@@ -66,11 +66,9 @@ document.addEventListener('DOMContentLoaded', () => {
     function renderProductCard(product) {
         const isSelected = state.selectedProducts[product.id];
         const quantity = isSelected ? isSelected.quantity : 1;
-        const placeholder = 'https://via.placeholder.com/300x300.png?text=No+Disponible';
-        const imgSrc = product.imgsrc && product.imgsrc.trim() ? product.imgsrc.trim() : placeholder;
         return `
             <div class="product-card" data-id="${product.id}">
-                <img src="${imgSrc}" alt="${product.producto}" class="product-image">
+                <img src="${product.imgsrc}" alt="${product.producto}" class="product-image">
                 <h3>${product.producto}</h3>
                 <div class="selection">
                     <input type="checkbox" class="select-checkbox" ${isSelected ? 'checked' : ''}>
@@ -87,11 +85,9 @@ document.addEventListener('DOMContentLoaded', () => {
     function renderSelectedProductCard(product) {
         const selection = state.selectedProducts[product.id];
         if (!selection) return '';
-        const placeholder = 'https://via.placeholder.com/300x300.png?text=No+Disponible';
-        const imgSrc = product.imgsrc && product.imgsrc.trim() ? product.imgsrc.trim() : placeholder;
         return `
             <div class="product-card" data-id="${product.id}">
-                <img src="${imgSrc}" alt="${product.producto}" class="product-image">
+                <img src="${product.imgsrc}" alt="${product.producto}" class="product-image">
                 <h3>${product.producto}</h3>
                 <div class="quantity">
                     <label>CANTIDAD:</label>
