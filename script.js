@@ -373,7 +373,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (businessName) message += `Mi negocio es ${businessName}.\n`;
         message += `Estoy interesado en los siguientes productos:\n\n${productNames}`;
         
-        const phoneNumber = "+595983617831";
+        const phoneNumber = "+595987334125";
         const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
         
         window.open(whatsappUrl, '_blank');
