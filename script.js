@@ -20,7 +20,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 populateBrandFilter();
                 renderIndexPage();
             } else if (isSelectedPage) {
-                populateCountryCodes();
                 renderSelectedPage();
             }
         } catch (error) {
@@ -56,19 +55,26 @@ document.addEventListener('DOMContentLoaded', () => {
     function clearSelection() {
         state.selectedProducts = {};
         saveSelection();
-        if (isIndexPage) {
-            renderIndexPage();
-        } else if (isSelectedPage) {
+
+        // Limpiar campos del formulario en seleccionados.html
+        if (isSelectedPage) {
+            document.getElementById('name').value = '';
+            const radioButtons = document.querySelectorAll('input[name="client-type"]');
+            radioButtons.forEach(radio => radio.checked = false);
             renderSelectedPage();
+        } else if (isIndexPage) {
+            renderIndexPage();
         }
     }
 
     function renderProductCard(product) {
         const isSelected = state.selectedProducts[product.id];
         const quantity = isSelected ? isSelected.quantity : 1;
+        const placeholder = 'https://via.placeholder.com/300x300.png?text=No+Disponible';
+        const imgSrc = product.imgsrc && product.imgsrc.trim() ? product.imgsrc.trim() : placeholder;
         return `
             <div class="product-card" data-id="${product.id}">
-                <img src="${product.imgsrc}" alt="${product.producto}" class="product-image">
+                <img src="${imgSrc}" alt="${product.producto}" class="product-image">
                 <h3>${product.producto}</h3>
                 <div class="selection">
                     <input type="checkbox" class="select-checkbox" ${isSelected ? 'checked' : ''}>
@@ -85,9 +91,11 @@ document.addEventListener('DOMContentLoaded', () => {
     function renderSelectedProductCard(product) {
         const selection = state.selectedProducts[product.id];
         if (!selection) return '';
+        const placeholder = 'https://via.placeholder.com/300x300.png?text=No+Disponible';
+        const imgSrc = product.imgsrc && product.imgsrc.trim() ? product.imgsrc.trim() : placeholder;
         return `
             <div class="product-card" data-id="${product.id}">
-                <img src="${product.imgsrc}" alt="${product.producto}" class="product-image">
+                <img src="${imgSrc}" alt="${product.producto}" class="product-image">
                 <h3>${product.producto}</h3>
                 <div class="quantity">
                     <label>CANTIDAD:</label>
@@ -130,6 +138,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function populateBrandFilter() {
         const brandFilter = document.getElementById('brand-filter');
+        if (!brandFilter) return;
         brandFilter.innerHTML = '<option value="">TODAS LAS MARCAS</option>';
         const brands = [...new Set(state.products.map(p => p.marca))];
         brands.sort().forEach(brand => {
@@ -138,22 +147,6 @@ document.addEventListener('DOMContentLoaded', () => {
             option.textContent = brand;
             brandFilter.appendChild(option);
         });
-    }
-
-    function populateCountryCodes() {
-        const countryCodeSelect = document.getElementById('country-code');
-        const countries = [
-            { code: '+595', name: 'Paraguay', flag: '🇵🇾' },
-            { code: '+54', name: 'Argentina', flag: '🇦🇷' },
-            { code: '+55', name: 'Brasil', flag: '🇧🇷' },
-        ];
-        countries.forEach(country => {
-            const option = document.createElement('option');
-            option.value = country.code;
-            option.textContent = `${country.flag} ${country.name} (${country.code})`;
-            countryCodeSelect.appendChild(option);
-        });
-        countryCodeSelect.value = '+595';
     }
 
     function updatePaginationInfo() {
@@ -220,7 +213,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const productId = card.dataset.id;
                 delete state.selectedProducts[productId];
                 saveSelection();
-                renderSelectedPage(); // Re-render to show the item is gone
+                renderSelectedPage();
             });
         });
 
@@ -233,14 +226,12 @@ document.addEventListener('DOMContentLoaded', () => {
                     state.selectedProducts[productId].quantity = newQuantity;
                     saveSelection();
                 } else {
-                    // If quantity is 0 or less, treat it as a deletion
                     delete state.selectedProducts[productId];
                     saveSelection();
                     renderSelectedPage();
                 }
             });
         });
-
         addImageZoomListeners();
     }
 
@@ -248,22 +239,25 @@ document.addEventListener('DOMContentLoaded', () => {
         const modal = document.getElementById('image-modal');
         const modalImg = document.getElementById('modal-image');
         const closeModal = document.querySelector('.close-modal');
-        document.querySelectorAll('.product-image').forEach(img => {
-            img.onclick = function() {
-                modal.style.display = "block";
-                modalImg.src = this.src;
-            }
-        });
-        closeModal.onclick = function() {
-            modal.style.display = "none";
-        }
-        window.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape') {
+        if (modal && closeModal) {
+            document.querySelectorAll('.product-image').forEach(img => {
+                img.onclick = function() {
+                    modal.style.display = "block";
+                    modalImg.src = this.src;
+                }
+            });
+            closeModal.onclick = function() {
                 modal.style.display = "none";
             }
-        });
+            window.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') {
+                    modal.style.display = "none";
+                }
+            });
+        }
     }
 
+    // Event listeners
     if (isIndexPage) {
         document.getElementById('brand-filter').addEventListener('change', filterProducts);
         document.getElementById('name-filter').addEventListener('input', filterProducts);
@@ -287,91 +281,75 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     if (isSelectedPage) {
+        document.getElementById('back-to-catalog').addEventListener('click', () => window.location.href = 'index.html');
         document.getElementById('download-pdf').addEventListener('click', downloadPDF);
         document.getElementById('send-whatsapp').addEventListener('click', sendWhatsApp);
     }
 
-    document.getElementById('clear-selection').addEventListener('click', clearSelection);
+    const clearButton = document.getElementById('clear-selection');
+    if (clearButton) {
+        clearButton.addEventListener('click', clearSelection);
+    }
 
-    function validateInputs() {
-        const name = document.getElementById('name').value;
-        const whatsapp = document.getElementById('whatsapp').value;
-        const email = document.getElementById('email').value;
-        if (!name || !whatsapp) {
-            alert('Por favor, complete los campos de Nombre y Apellido y WhatsApp.');
-            return false;
-        }
-        if (email && !/^\S+@\S+\.\S+$/.test(email)) {
-            alert('Por favor, ingrese un correo electrónico válido.');
-            return false;
-        }
-        return true;
+    function getHeaderText() {
+        const clientName = document.getElementById('name').value.toUpperCase();
+        const clientTypeRadio = document.querySelector('input[name="client-type"]:checked');
+        const clientType = clientTypeRadio ? clientTypeRadio.value.toUpperCase() : '';
+
+        return `#######
+Hola ID IMPORT EXPORT.
+Soy ${clientName}.
+${clientType}.
+-------
+Estoy interesado en los siguientes productos:
+-------`;
+    }
+
+    function getFooterText() {
+        return `-------
+#######`;
     }
 
     async function downloadPDF() {
-        if (!validateInputs()) return;
         const { jsPDF } = window.jspdf;
         const doc = new jsPDF();
 
-        doc.text("Productos Seleccionados", 20, 20);
-        let y = 30;
+        const headerText = getHeaderText();
+        const footerText = getFooterText();
+        const productList = state.products
+            .filter(p => Object.keys(state.selectedProducts).includes(p.id.toString()))
+            .map(p => `- ${p.producto} (Cantidad: ${state.selectedProducts[p.id].quantity})`)
+            .join('\n');
 
-        const name = document.getElementById('name').value;
-        const email = document.getElementById('email').value;
-        const countryCode = document.getElementById('country-code').value;
-        let whatsapp = document.getElementById('whatsapp').value;
-        if (whatsapp.startsWith('0')) {
-            whatsapp = whatsapp.substring(1);
-        }
-        const businessName = document.getElementById('business-name').value;
+        const fullText = `${headerText}\n\n${productList}\n\n${footerText}`;
 
-        doc.text(`Nombre y Apellido: ${name}`, 20, y); y += 10;
-        doc.text(`Correo: ${email}`, 20, y); y += 10;
-        doc.text(`WhatsApp: ${countryCode}${whatsapp}`, 20, y); y += 10;
-        doc.text(`Nombre del Negocio: ${businessName}`, 20, y); y += 10;
-        y += 10;
+        // Add text to PDF
+        const splitText = doc.splitTextToSize(fullText, 180);
+        doc.text(splitText, 10, 20);
 
-        const selectedIds = Object.keys(state.selectedProducts);
-        const selectedProductObjects = state.products.filter(p => selectedIds.includes(p.id.toString()));
+        // Add date
+        const today = new Date();
+        const dateString = `${today.getDate().toString().padStart(2, '0')}/${(today.getMonth() + 1).toString().padStart(2, '0')}/${today.getFullYear()}`;
+        doc.text(dateString, 10, doc.internal.pageSize.height - 10);
 
-        for (const product of selectedProductObjects) {
-             if (y > 250) {
-                doc.addPage();
-                y = 20;
-            }
-            doc.text(`- ${product.producto} (Cantidad: ${state.selectedProducts[product.id].quantity})`, 20, y);
-            y += 10;
-        }
         doc.save('seleccion-productos.pdf');
     }
 
     function sendWhatsApp() {
-        if (!validateInputs()) return;
-
-        const name = document.getElementById('name').value;
-        const email = document.getElementById('email').value;
-        const countryCode = document.getElementById('country-code').value;
-        let whatsapp = document.getElementById('whatsapp').value;
-        if (whatsapp.startsWith('0')) {
-            whatsapp = whatsapp.substring(1);
-        }
-        const businessName = document.getElementById('business-name').value;
-
         const selectedIds = Object.keys(state.selectedProducts);
         if (selectedIds.length === 0) {
             alert("No hay productos seleccionados para enviar.");
             return;
         }
 
-        const productNames = state.products
+        const headerText = getHeaderText();
+        const footerText = getFooterText();
+        const productList = state.products
             .filter(p => selectedIds.includes(p.id.toString()))
             .map(p => `${p.producto} (Cantidad: ${state.selectedProducts[p.id].quantity})`)
             .join('\n');
 
-        let message = `Hola, mi nombre es ${name}.\n`;
-        if (email) message += `Mi correo es ${email}.\n`;
-        if (businessName) message += `Mi negocio es ${businessName}.\n`;
-        message += `Estoy interesado en los siguientes productos:\n\n${productNames}`;
+        const message = `${headerText}\n\n${productList}\n\n${footerText}`;
 
         const phoneNumber = "+595987334125";
         const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;

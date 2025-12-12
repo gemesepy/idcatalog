@@ -19,6 +19,7 @@
     </header>
     <main>
         <div class="controls-container">
+            <button id="back-to-catalog">VOLVER AL CATALOGO</button>
             <button id="clear-selection">LIMPIAR SELECCION</button>
             <button id="download-pdf">Descargar PDF</button>
             <button id="send-whatsapp">Enviar por WhatsApp</button>
@@ -26,15 +27,29 @@
 
         <div class="form-container">
             <hr class="separator">
-            <h2>COMPLETA ESTOS DATOS ANTES DE GENERAR EL PEDIDO</h2>
+            <h2>DATOS DEL SOLICITANTE</h2>
             <div class="user-info-container">
-                <input type="text" id="name" placeholder="Nombre y Apellido" required>
+                <input type="text" id="name" placeholder="Nombre del Cliente o Negocio">
+
+                <!-- Campos deshabilitados como solicitado -->
+                <!--
                 <input type="email" id="email" placeholder="Correo Electrónico">
                 <div class="whatsapp-container">
                     <select id="country-code"></select>
                     <input type="tel" id="whatsapp" placeholder="WhatsApp" required>
                 </div>
                 <input type="text" id="business-name" placeholder="Nombre del Negocio">
+                -->
+
+                <div class="client-type-container">
+                    <label class="client-type-title">TIPO DE CLIENTE</label>
+                    <div class="radio-options">
+                        <input type="radio" id="cliente-activo" name="client-type" value="CLIENTE ACTIVO">
+                        <label for="cliente-activo">CLIENTE ACTIVO</label>
+                        <input type="radio" id="cliente-nuevo" name="client-type" value="CLIENTE NUEVO">
+                        <label for="cliente-nuevo">CLIENTE NUEVO</label>
+                    </div>
+                </div>
             </div>
             <hr class="separator">
         </div>
